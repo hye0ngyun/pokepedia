@@ -19,6 +19,12 @@ const roboto = Roboto({
 const theme = createTheme({
   typography: {
     fontFamily: pretendard.style.fontFamily,
+    body1: {
+      fontSize: "1.2rem",
+    },
+    body2: {
+      fontSize: "0.8rem",
+    },
   },
   palette: {
     primary: {

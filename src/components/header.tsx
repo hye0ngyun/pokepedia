@@ -11,16 +11,10 @@ export default function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar variant="dense">
-          <Typography
-            variant="h6"
-            color="inherit"
-            component="div"
-            marginRight={2}
-          >
-            Poképedia
-          </Typography>
-          <Stack direction="row" gap={1}>
-            <Link href="/">Home</Link>
+          <Stack direction="row" gap={2} alignItems="center">
+            <Typography variant="h6" color="inherit" component="div">
+              <Link href="/">Poképedia</Link>
+            </Typography>
             <Link href="/type">Type</Link>
           </Stack>
         </Toolbar>

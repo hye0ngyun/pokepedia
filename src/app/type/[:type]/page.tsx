@@ -3,5 +3,5 @@
  */
 
 export default function Type() {
-  return <div></div>;
+  return <div>a</div>;
 }
