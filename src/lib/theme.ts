@@ -25,6 +25,9 @@ const theme = createTheme({
     body2: {
       fontSize: "0.8rem",
     },
+    // h3: {
+    //   fontSize: "2rem",
+    // },
   },
   palette: {
     primary: {
