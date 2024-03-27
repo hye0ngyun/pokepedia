@@ -44,7 +44,7 @@ export default function ListPagination({
     setPage(defaultPage);
   }, [router, defaultPage]);
   return (
-    <Stack>
+    <Stack mt={5}>
       <Pagination
         defaultPage={defaultPage}
         count={totalPages}

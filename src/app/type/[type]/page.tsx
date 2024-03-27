@@ -5,7 +5,7 @@ import {
 import TypeChip from "@/components/ui/type-chip";
 import pokemonService from "@/lib/services/pokemonService";
 import { IDamageRelations } from "@/lib/services/pokemonService/pokemonService";
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -17,10 +17,13 @@ export default async function Type({ params }: { params: { type: string } }) {
 
   return (
     <Box>
-      <Stack direction="row" gap={1} mb={2} alignItems="center">
-        <TypeChip text={type.name} />
-        <span>Type Pokemon Total: {type.pokemon.length}</span>
-      </Stack>
+      <Box component={Paper} p={2} mb={5}>
+        <Typography mb={2}>Current Type</Typography>
+        <Stack direction="row" gap={1} alignItems="center">
+          <TypeChip text={type.name} />
+          <span>Type Pokemon Total: {type.pokemon.length}</span>
+        </Stack>
+      </Box>
 
       <Compatibility relations={type.damage_relations} />
       <Grid p="10px 0" container spacing={2}>
@@ -52,17 +55,21 @@ type TRelationKey =
   | "no_damage_to";
 function Compatibility({ relations }: { relations: IDamageRelations }) {
   return (
-    <Stack gap={1} mb={1}>
+    <Stack gap={1} p={2} mb={5} divider={<Divider />} component={Paper}>
+      <Typography mb={2}>Type Damage Relations</Typography>
       {Object.keys(relations).map((relation) => {
+        const relationTypes = relations[relation as TRelationKey];
         return (
           <Stack direction="row" key={`${relation}`} gap={1}>
             <div>{relation}: </div>
             <Stack direction="row" gap={1}>
-              {relations[relation as TRelationKey].map((type) => (
-                <Link key={type.name} href={`/type/${type.name}`}>
-                  <TypeChip text={type.name} />
-                </Link>
-              ))}
+              {relationTypes.length
+                ? relationTypes.map((type) => (
+                    <Link key={type.name} href={`/type/${type.name}`}>
+                      <TypeChip text={type.name} />
+                    </Link>
+                  ))
+                : "No Type Exists"}
             </Stack>
           </Stack>
         );

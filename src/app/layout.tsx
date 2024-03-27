@@ -23,7 +23,9 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <Header />
             <Container maxWidth="lg">
-              <Box py={5}>{children}</Box>
+              <Box pt={5} pb={10}>
+                {children}
+              </Box>
             </Container>
           </ThemeProvider>
         </AppRouterCacheProvider>
