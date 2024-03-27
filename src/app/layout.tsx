@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Container, ThemeProvider } from "@mui/material";
-import Header from "@/components/header";
+import Header from "@/components/ui/header";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import theme from "@/lib/theme";
 

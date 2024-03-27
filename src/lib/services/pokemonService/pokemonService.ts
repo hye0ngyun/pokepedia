@@ -71,8 +71,47 @@ async function getPokemon(name: string): Promise<IPokemon> {
   );
 }
 
+interface IMove {
+  id: number;
+  name: string;
+  accuracy?: number;
+  power?: number;
+  pp?: number;
+  priority?: number;
+  target: {
+    name: string;
+    url: string;
+  };
+  type: {
+    name: string;
+    url: string;
+  };
+  flavor_text_entries: {
+    flavor_text: string;
+    language: {
+      name: string;
+      url: string;
+    };
+    version_group: {
+      name: string;
+      url: string;
+    };
+  }[];
+  meta: {
+    category: {
+      name: string;
+      url: string;
+    };
+  };
+}
+/** 포켓몬 행동 상세조회 */
+async function getMove(id: number): Promise<IMove> {
+  return fetch(`${BASE_URL}/move/${id}`).then((response) => response.json());
+}
+
 const services = {
   getPokemon,
   getPokemonList,
+  getMove,
 };
 export default services;

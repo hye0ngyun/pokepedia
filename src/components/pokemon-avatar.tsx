@@ -21,7 +21,6 @@ export async function PokemonAvatar({ name }: IPokemonAvatar) {
         p: 2,
         borderRadius: 2,
         minHeight: 300,
-        height: "100%",
         boxShadow: "2px 2px 5px 2px #aaa3",
       }}
     >
@@ -42,20 +41,24 @@ export async function PokemonAvatar({ name }: IPokemonAvatar) {
       <Box sx={{ typography: "h4", textAlign: "center", mb: 2 }}>{name}</Box>
       <Stack direction="row" gap={1} justifyContent="center">
         {types?.map((type) => (
-          <Box
+          <Link
             key={`${name}_${type.type.name}`}
-            sx={{
-              bgcolor: colorSets[`${type.type.name}`],
-              color: "#fff",
-              borderRadius: 5,
-              px: 2,
-              pb: 0.3,
-              pt: 0.1,
-              fontVariant: "small-caps",
-            }}
+            href={`/type/${type.type.name}`}
           >
-            {type.type.name}
-          </Box>
+            <Box
+              sx={{
+                bgcolor: colorSets[`${type.type.name}`],
+                color: "#fff",
+                borderRadius: 5,
+                px: 2,
+                pb: 0.3,
+                pt: 0.1,
+                fontVariant: "small-caps",
+              }}
+            >
+              {type.type.name}
+            </Box>
+          </Link>
         ))}
       </Stack>
     </Box>

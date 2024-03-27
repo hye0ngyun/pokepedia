@@ -11,13 +11,15 @@
 
 ### 필수 구현
 
+(work started at 24.03.26 15:00 ~)
+
 - 포켓몬 목록 조회 [complete - 24.03.26 23:38]
 
   - api: https://pokeapi.co/api/v2/pokemon/
   - 필수 구현: 썸네일, 이름
   - 추가 구현: 번호, 속성 등
 
-- 포켓몬 상세 조회
+- 포켓몬 상세 조회 [complete - 24.03.27 14:02]
 
   - api: https://pokeapi.co/api/v2/pokemon/{:id or :name}
   - 필수 구현: 썸네일, 이름, 간단한 설명

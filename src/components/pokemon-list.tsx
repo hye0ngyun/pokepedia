@@ -1,17 +1,10 @@
-import Image from "next/image";
-import PokemonLogo from "/public/pokemon-logo.png";
-import { Box, Grid, Skeleton, Stack, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import pokemonService from "@/lib/services/pokemonService";
 import Link from "next/link";
-import { colorSets } from "@/lib/colorSets";
-import { Dispatch, SetStateAction, Suspense } from "react";
+import { Suspense } from "react";
 import { LoadingPokemonAvatar, PokemonAvatar } from "./pokemon-avatar";
 
-export default async function PokemonList({
-  page = 1,
-}: {
-  page: number;
-}) {
+export default async function PokemonList({ page = 1 }: { page: number }) {
   const offset = page * 20 - 20;
   const pokemons = await pokemonService.getPokemonList(offset);
 
