@@ -109,9 +109,35 @@ async function getMove(id: number): Promise<IMove> {
   return fetch(`${BASE_URL}/move/${id}`).then((response) => response.json());
 }
 
+export interface IDamageRelations {
+  double_damage_from: { name: string; url: string }[];
+  double_damage_to: { name: string; url: string }[];
+  half_damage_from: { name: string; url: string }[];
+  half_damage_to: { name: string; url: string }[];
+  no_damage_from: { name: string; url: string }[];
+  no_damage_to: { name: string; url: string }[];
+}
+interface IType {
+  id: number;
+  damage_relations: IDamageRelations;
+  pokemon: {
+    pokemon: {
+      name: string;
+      url: string;
+    };
+  }[];
+  name: string;
+  names: { language: { name: string; url: string }; name: string }[];
+}
+/** 타입 상세조회 */
+async function getType(name: string): Promise<IType> {
+  return fetch(`${BASE_URL}/type/${name}`).then((response) => response.json());
+}
+
 const services = {
   getPokemon,
   getPokemonList,
   getMove,
+  getType,
 };
 export default services;

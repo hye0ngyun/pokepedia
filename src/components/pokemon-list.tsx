@@ -20,9 +20,9 @@ export default async function PokemonList({ page = 1 }: { page: number }) {
           key={`#${index}_${pokemon.name}`}
         >
           <Suspense fallback={<LoadingPokemonAvatar name={pokemon.name} />}>
-            <Link href={`/pokemon/${pokemon.name}`}>
-              <PokemonAvatar name={pokemon.name} />
-            </Link>
+            {/* <Link href={`/pokemon/${pokemon.name}`}> */}
+            <PokemonAvatar name={pokemon.name} />
+            {/* </Link> */}
           </Suspense>
         </Grid>
       ))}

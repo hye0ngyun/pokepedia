@@ -4,10 +4,12 @@ import { Box, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import pokemonService from "@/lib/services/pokemonService";
 import Link from "next/link";
 import { colorSets } from "@/lib/colorSets";
+import Chip from "./ui/type-chip";
 interface IPokemonAvatar {
   name: string;
+  isSpec?: boolean;
 }
-export async function PokemonAvatar({ name }: IPokemonAvatar) {
+export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
   const pokemonInfo = await pokemonService.getPokemon(name);
 
   const id = pokemonInfo.id + "";
@@ -18,46 +20,63 @@ export async function PokemonAvatar({ name }: IPokemonAvatar) {
     <Box
       sx={{
         bgcolor: "#fff",
-        p: 2,
         borderRadius: 2,
         minHeight: 300,
         boxShadow: "2px 2px 5px 2px #aaa3",
       }}
     >
-      <Box>#{id.padStart(3, "0")}</Box>
-      <Image
-        style={{
-          margin: "40px auto",
-          display: "block",
-          maxWidth: "100%",
-          objectFit: "contain",
-        }}
-        src={imageUrl}
-        alt="pokemon logo"
-        width={200}
-        height={200}
-        priority
-      />
-      <Box sx={{ typography: "h4", textAlign: "center", mb: 2 }}>{name}</Box>
-      <Stack direction="row" gap={1} justifyContent="center">
+      <Link href={isSpec ? "" : `/pokemon/${name}`}>
+        <Box
+          sx={{
+            borderStartStartRadius: 5,
+            borderTopRightRadius: 5,
+            p: 2,
+            transition: "0.35s",
+            "&:hover": {
+              bgcolor: isSpec ? "#fff" : "primary.light",
+            },
+          }}
+        >
+          <Box>#{id.padStart(3, "0")}</Box>
+          <Image
+            style={{
+              margin: "40px auto",
+              display: "block",
+              maxWidth: "100%",
+              objectFit: "contain",
+            }}
+            src={imageUrl}
+            alt="pokemon logo"
+            width={200}
+            height={200}
+            priority
+          />
+          <Box
+            sx={{
+              minHeight: 85,
+              typography: "h4",
+              textAlign: "center",
+              mb: 2,
+            }}
+          >
+            {name}
+          </Box>
+        </Box>
+      </Link>
+      <Stack
+        borderTop={1}
+        borderColor="#EEEEEE"
+        p={2}
+        direction="row"
+        gap={1}
+        justifyContent="center"
+      >
         {types?.map((type) => (
           <Link
             key={`${name}_${type.type.name}`}
             href={`/type/${type.type.name}`}
           >
-            <Box
-              sx={{
-                bgcolor: colorSets[`${type.type.name}`],
-                color: "#fff",
-                borderRadius: 5,
-                px: 2,
-                pb: 0.3,
-                pt: 0.1,
-                fontVariant: "small-caps",
-              }}
-            >
-              {type.type.name}
-            </Box>
+            <Chip key={`${name}_${type.type.name}`} text={type.type.name} />
           </Link>
         ))}
       </Stack>

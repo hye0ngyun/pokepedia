@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Container, ThemeProvider } from "@mui/material";
+import { Box, Container, ThemeProvider } from "@mui/material";
 import Header from "@/components/ui/header";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import theme from "@/lib/theme";
@@ -22,7 +22,9 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <Header />
-            <Container maxWidth="lg">{children}</Container>
+            <Container maxWidth="lg">
+              <Box py={5}>{children}</Box>
+            </Container>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

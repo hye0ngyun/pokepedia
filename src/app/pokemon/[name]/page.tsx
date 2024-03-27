@@ -11,7 +11,6 @@ import {
   PokemonStats,
 } from "@/components/pokemon-info";
 import { Grid, Stack } from "@mui/material";
-import { useParams } from "next/navigation";
 import { Suspense } from "react";
 
 /**
@@ -22,11 +21,11 @@ export default function PokemonSpec({ params }: { params: { name: string } }) {
 
   return (
     <main>
-      <Grid container spacing={2} py={5}>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Stack spacing={2}>
             <Suspense fallback={<LoadingPokemonAvatar />}>
-              <PokemonAvatar name={name} />
+              <PokemonAvatar isSpec name={name} />
             </Suspense>
             <Suspense fallback={<LoadingPokemonAbilities />}>
               <PokemonAbilities name={name} />
