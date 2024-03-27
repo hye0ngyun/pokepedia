@@ -20,12 +20,49 @@ interface IPokemonType {
     url: string;
   };
 }
+interface IPokemonStat {
+  base_stat: number;
+  effort: number;
+  stat: {
+    name: string;
+    url: string;
+  };
+}
+interface IAbilitie {
+  ability: {
+    name: string;
+    url: string;
+  };
+  is_hidden: boolean;
+  slot: number;
+}
 interface IPokemon {
   id: number;
+  height: number;
+  weight: number;
   sprites: {
     front_default: string;
   };
   types: IPokemonType[];
+  moves: {
+    move: {
+      name: string;
+      url: string;
+    };
+    version_group_details: {
+      level_learned_at: number;
+      move_learn_method: {
+        name: string;
+        url: string;
+      };
+      version_group: {
+        name: string;
+        url: string;
+      };
+    }[];
+  }[];
+  stats: IPokemonStat[];
+  abilities: IAbilitie[];
 }
 /** 포켓몬 상세조회 */
 async function getPokemon(name: string): Promise<IPokemon> {
