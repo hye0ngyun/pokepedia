@@ -16,10 +16,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  window,
 }: Readonly<{
   children: React.ReactNode;
-  window?: () => Window;
 }>) {
   return (
     <html lang="kr">
@@ -33,11 +31,7 @@ export default function RootLayout({
               </Box>
             </Container>
             <Footer />
-            <ScrollTop {...{ window, children }}>
-              <Fab color="primary" size="small" aria-label="scroll back to top">
-                <KeyboardArrowUp />
-              </Fab>
-            </ScrollTop>
+            <ScrollTop />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

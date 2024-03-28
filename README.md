@@ -2,10 +2,14 @@
 
 포켓몬 백과사전
 
+## url
+
+https://pokepedia-kr.netlify.com
+
 ## 구현 목적
 
 포켓몬을 좋아하는 사용자들에게 포켓몬을 백과사전처럼 볼 수 있도록 하는 것
-또한 속성별로 모아서 볼 수 있는 기능 제공할 예정
+또한 속성별로 모아서 볼 수 있는 기능 제공
 
 ## 구현 목표
 
@@ -43,14 +47,16 @@
   - 폰트: Pretendard - cdn web font
 - 프로젝트 관리
   - Github
+- 배포
+  - Netlify
 - 참조 API
   - Pokemon API (https://pokeapi.co/docs/v2)
 
 ## 라우터 구조
 
-- 목록 페이지: `/`
-- 상세 페이지: `/pokemon/:name`
-- 속성 필터 페이지: `/type/:type`
+- 목록 페이지: `/`, `/?page=2`
+- 상세 페이지: `/pokemon/[name]`
+- 속성 필터 페이지: ` /type`, `/type/[type] `
 
 ## 요구사항
 

@@ -175,7 +175,7 @@ async function PokemonMove({ id }: { id: number }) {
         aria-controls={`move_${move.name}`}
         id={`move_${move.name}`}
       >
-        {move.name}
+        <Typography fontWeight="600">{move.name}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <p>description: {getFlavorText(move.flavor_text_entries)}</p>
