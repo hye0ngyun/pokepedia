@@ -6,6 +6,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import theme from "@/lib/theme";
 import ScrollTop from "@/components/client/back-to-top";
 import { KeyboardArrowUp } from "@mui/icons-material";
+import Footer from "@/components/client/footer";
 
 export const metadata: Metadata = {
   title: "PokePedia - 포켓몬 백과사전",
@@ -26,11 +27,12 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <Header />
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" sx={{ minHeight: "80dvh" }}>
               <Box pt={5} pb={10}>
                 {children}
               </Box>
             </Container>
+            <Footer />
             <ScrollTop {...{ window, children }}>
               <Fab color="primary" size="small" aria-label="scroll back to top">
                 <KeyboardArrowUp />

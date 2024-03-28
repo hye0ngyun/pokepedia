@@ -21,8 +21,8 @@ export const colorSets: {
   fairy: "rgb(214, 133, 173)",
   dark: "rgb(112, 87, 70)",
   dragon: "rgb(111, 53, 252)",
-  unknown: "rgb(117,159,145)",
-  shadow: "rgb(62,51,69)",
+  // unknown: "rgb(117,159,145)",
+  // shadow: "rgb(62,51,69)",
 };
 
 export function getFlavorText(array: IFlavorText[]) {
