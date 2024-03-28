@@ -9,10 +9,10 @@ import Link from "next/link";
 export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" id="back-to-top-anchor">
         <Toolbar variant="regular">
           <Stack direction="row" gap={2} alignItems="center">
-            <Link href="/">
+            <Link scroll={false} href="/">
               <Typography
                 variant="h4"
                 color="inherit"
@@ -34,7 +34,7 @@ export default function Header() {
                 backgroundColor: "#FFF",
               }}
             ></Box>
-            <Link href="/type">
+            <Link scroll={false} href="/type">
               <Box
                 sx={{
                   transition: "0.35s",

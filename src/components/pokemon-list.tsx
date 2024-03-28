@@ -1,9 +1,9 @@
 import { Grid } from "@mui/material";
 import pokemonService from "@/lib/services/pokemonService";
-import Link from "next/link";
 import { Suspense } from "react";
 import { LoadingPokemonAvatar, PokemonAvatar } from "./pokemon-avatar";
 
+/** 포켓몬 목록 */
 export default async function PokemonList({ page = 1 }: { page: number }) {
   const offset = page * 20 - 20;
   const pokemons = await pokemonService.getPokemonList(offset);
@@ -20,7 +20,7 @@ export default async function PokemonList({ page = 1 }: { page: number }) {
           key={`#${index}_${pokemon.name}`}
         >
           <Suspense fallback={<LoadingPokemonAvatar name={pokemon.name} />}>
-            {/* <Link href={`/pokemon/${pokemon.name}`}> */}
+            {/* <Link scroll={false} href={`/pokemon/${pokemon.name}`}> */}
             <PokemonAvatar name={pokemon.name} />
             {/* </Link> */}
           </Suspense>
@@ -29,7 +29,6 @@ export default async function PokemonList({ page = 1 }: { page: number }) {
     </Grid>
   );
 }
-
 export function LoadingList() {
   return (
     <Grid p="10px 0" container spacing={2}>

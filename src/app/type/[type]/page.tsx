@@ -62,10 +62,14 @@ function Compatibility({ relations }: { relations: IDamageRelations }) {
         return (
           <Stack direction="row" key={`${relation}`} gap={1}>
             <div>{relation}: </div>
-            <Stack direction="row" gap={1}>
+            <Stack direction="row" gap={1} flexWrap="wrap">
               {relationTypes.length
                 ? relationTypes.map((type) => (
-                    <Link key={type.name} href={`/type/${type.name}`}>
+                    <Link
+                      scroll={false}
+                      key={type.name}
+                      href={`/type/${type.name}`}
+                    >
                       <TypeChip text={type.name} />
                     </Link>
                   ))

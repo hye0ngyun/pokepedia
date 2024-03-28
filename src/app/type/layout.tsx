@@ -14,7 +14,7 @@ export default function Layout({
         <Typography mb={2}>All Types</Typography>
         <Stack direction="row" flexWrap="wrap" gap={1}>
           {Object.keys(colorSets).map((type) => (
-            <Link key={`type_${type}`} href={`/type/${type}`}>
+            <Link scroll={false} key={`type_${type}`} href={`/type/${type}`}>
               <TypeChip text={type} />
             </Link>
           ))}

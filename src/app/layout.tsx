@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Box, Container, ThemeProvider } from "@mui/material";
+import { Box, Container, Fab, ThemeProvider } from "@mui/material";
 import Header from "@/components/ui/header";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import theme from "@/lib/theme";
+import ScrollTop from "@/components/ui/back-to-top";
+import { KeyboardArrowUp } from "@mui/icons-material";
 
 export const metadata: Metadata = {
   title: "PokePedia - 포켓몬 백과사전",
@@ -13,8 +15,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  window,
 }: Readonly<{
   children: React.ReactNode;
+  window?: () => Window;
 }>) {
   return (
     <html lang="kr">
@@ -27,6 +31,11 @@ export default function RootLayout({
                 {children}
               </Box>
             </Container>
+            <ScrollTop {...{ window, children }}>
+              <Fab color="primary" size="small" aria-label="scroll back to top">
+                <KeyboardArrowUp />
+              </Fab>
+            </ScrollTop>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

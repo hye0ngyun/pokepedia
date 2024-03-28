@@ -25,7 +25,7 @@ export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
         boxShadow: "2px 2px 5px 2px #aaa3",
       }}
     >
-      <Link href={isSpec ? "" : `/pokemon/${name}`}>
+      <Link scroll={false} href={isSpec ? "" : `/pokemon/${name}`}>
         <Box
           sx={{
             borderStartStartRadius: 5,
@@ -73,6 +73,7 @@ export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
       >
         {types?.map((type) => (
           <Link
+            scroll={false}
             key={`${name}_${type.type.name}`}
             href={`/type/${type.type.name}`}
           >
