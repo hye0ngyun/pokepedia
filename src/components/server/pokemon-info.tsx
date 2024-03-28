@@ -17,6 +17,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Suspense } from "react";
+
+export const boxStyle = {
+  bgcolor: "#fff",
+  p: 2,
+  borderRadius: 2,
+  boxShadow: "2px 2px 5px 2px #aaa3",
+};
+
 interface IProps {
   name: string;
 }
@@ -24,15 +32,7 @@ interface IProps {
 export async function PokemonStats({ name }: IProps) {
   const pokemonInfo = await pokemonService.getPokemon(name);
   return (
-    <Stack
-      sx={{
-        bgcolor: "#fff",
-        p: 2,
-        borderRadius: 2,
-        boxShadow: "2px 2px 5px 2px #aaa3",
-      }}
-      gap={1}
-    >
+    <Stack sx={boxStyle} gap={1}>
       <Typography variant="h4" mb={1}>
         Base Stats
       </Typography>
@@ -72,14 +72,7 @@ export async function PokemonAbilities({ name }: IProps) {
   const pokemonInfo = await pokemonService.getPokemon(name);
 
   return (
-    <Stack
-      sx={{
-        bgcolor: "#fff",
-        p: 2,
-        borderRadius: 2,
-        boxShadow: "2px 2px 5px 2px #aaa3",
-      }}
-    >
+    <Stack sx={boxStyle}>
       <Typography variant="h4" mb={1}>
         Abilities
       </Typography>
@@ -119,14 +112,7 @@ export function LoadingPokemonAbilities() {
 export async function PokemonMoves({ name }: IProps) {
   const pokemonInfo = await pokemonService.getPokemon(name);
   return (
-    <Box
-      sx={{
-        bgcolor: "#fff",
-        p: 2,
-        borderRadius: 2,
-        boxShadow: "2px 2px 5px 2px #aaa3",
-      }}
-    >
+    <Box sx={boxStyle}>
       <Typography variant="h4" mb={1}>
         Moves
       </Typography>
@@ -144,14 +130,7 @@ export async function PokemonMoves({ name }: IProps) {
 }
 export function LoadingPokemonMoves() {
   return (
-    <Box
-      sx={{
-        bgcolor: "#fff",
-        p: 2,
-        borderRadius: 2,
-        boxShadow: "2px 2px 5px 2px #aaa3",
-      }}
-    >
+    <Box sx={boxStyle}>
       <Typography variant="h4" mb={1}>
         Moves
       </Typography>
@@ -249,14 +228,7 @@ export async function PokemonSpecies({ name }: IProps) {
   const speciesId = getIdFromUrl(species.url);
   const pokemonSpecies = await pokemonService.getSpecies(speciesId);
   return (
-    <Box
-      sx={{
-        bgcolor: "#fff",
-        p: 2,
-        borderRadius: 2,
-        boxShadow: "2px 2px 5px 2px #aaa3",
-      }}
-    >
+    <Box sx={boxStyle}>
       <Typography variant="h4" mb={1}>
         Species
       </Typography>
@@ -270,4 +242,15 @@ export async function PokemonSpecies({ name }: IProps) {
     </Box>
   );
 }
-export function LoadingPokemonSpecies() {}
+export function LoadingPokemonSpecies() {
+  return (
+    <Box sx={boxStyle}>
+      <Typography variant="h4" mb={1}>
+        Species
+      </Typography>
+      <Skeleton height={30} />
+      <Skeleton height={30} />
+      <Skeleton height={30} />
+    </Box>
+  );
+}

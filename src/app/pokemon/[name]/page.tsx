@@ -1,7 +1,7 @@
 import {
   LoadingPokemonAvatar,
   PokemonAvatar,
-} from "@/components/pokemon-avatar";
+} from "@/components/server/pokemon-avatar";
 import {
   LoadingPokemonAbilities,
   LoadingPokemonMoves,
@@ -11,7 +11,7 @@ import {
   PokemonMoves,
   PokemonSpecies,
   PokemonStats,
-} from "@/components/pokemon-info";
+} from "@/components/server/pokemon-info";
 import { Grid, Stack } from "@mui/material";
 import { Suspense } from "react";
 

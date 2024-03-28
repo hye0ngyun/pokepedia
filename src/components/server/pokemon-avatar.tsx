@@ -4,7 +4,7 @@ import { Box, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import pokemonService from "@/lib/services/pokemonService";
 import Link from "next/link";
 import { colorSets } from "@/lib/colorSets";
-import Chip from "./ui/type-chip";
+import Chip from "../client/type-chip";
 import { getFlavorText, getIdFromUrl, getName } from "@/lib/utils";
 interface IPokemonAvatar {
   name: string;

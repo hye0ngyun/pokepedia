@@ -1,11 +1,12 @@
 import {
   LoadingPokemonAvatar,
   PokemonAvatar,
-} from "@/components/pokemon-avatar";
-import TypeChip from "@/components/ui/type-chip";
+} from "@/components/server/pokemon-avatar";
+import { boxStyle } from "@/components/server/pokemon-info";
+import TypeChip from "@/components/client/type-chip";
 import pokemonService from "@/lib/services/pokemonService";
 import { IDamageRelations } from "@/lib/services/pokemonService/pokemonService";
-import { Box, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -17,7 +18,7 @@ export default async function Type({ params }: { params: { type: string } }) {
 
   return (
     <Box>
-      <Box component={Paper} p={2} mb={5}>
+      <Box sx={boxStyle} p={2} mb={5}>
         <Typography mb={2}>Current Type</Typography>
         <Stack direction="row" gap={1} alignItems="center">
           <TypeChip text={type.name} />
@@ -55,7 +56,7 @@ type TRelationKey =
   | "no_damage_to";
 function Compatibility({ relations }: { relations: IDamageRelations }) {
   return (
-    <Stack gap={1} p={2} mb={5} divider={<Divider />} component={Paper}>
+    <Stack gap={1} p={2} mb={5} divider={<Divider />} sx={boxStyle}>
       <Typography mb={2}>Type Damage Relations</Typography>
       {Object.keys(relations).map((relation) => {
         const relationTypes = relations[relation as TRelationKey];

@@ -1,11 +1,9 @@
 import Image from "next/image";
 import PokemonLogo from "/public/pokemon-logo.png";
-import PokemonList, { LoadingList } from "@/components/pokemon-list";
-import { Suspense, useEffect, useState } from "react";
-import { Pagination, Stack } from "@mui/material";
-import { useRouter, useSearchParams } from "next/navigation";
+import PokemonList, { LoadingList } from "@/components/server/pokemon-list";
+import { Suspense } from "react";
 import pokemonService from "@/lib/services/pokemonService";
-import ListPagination from "@/components/pagination";
+import ListPagination from "@/components/client/pagination";
 
 /**
  * 목록 페이지

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Box, Container, Fab, ThemeProvider } from "@mui/material";
-import Header from "@/components/ui/header";
+import Header from "@/components/client/header";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import theme from "@/lib/theme";
-import ScrollTop from "@/components/ui/back-to-top";
+import ScrollTop from "@/components/client/back-to-top";
 import { KeyboardArrowUp } from "@mui/icons-material";
 
 export const metadata: Metadata = {

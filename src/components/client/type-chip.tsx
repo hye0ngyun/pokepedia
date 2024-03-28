@@ -1,4 +1,4 @@
-import { colorSets } from "@/lib/colorSets";
+import { colorSets } from '@/lib/utils';
 import { Box } from "@mui/material";
 
 export default function TypeChip({ text }: { text: string }) {

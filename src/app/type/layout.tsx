@@ -1,7 +1,8 @@
-import TypeChip from "@/components/ui/type-chip";
-import { colorSets } from "@/lib/colorSets";
-import { Grid, Paper, Stack, Typography } from "@mui/material";
+import { boxStyle } from "@/components/server/pokemon-info";
+import TypeChip from "@/components/client/type-chip";
+import { Stack, Typography } from "@mui/material";
 import Link from "next/link";
+import { colorSets } from '@/lib/utils';
 
 export default function Layout({
   children,
@@ -10,7 +11,7 @@ export default function Layout({
 }>) {
   return (
     <main>
-      <Stack component={Paper} p={2} mb={5}>
+      <Stack sx={boxStyle} p={2} mb={5}>
         <Typography mb={2}>All Types</Typography>
         <Stack direction="row" flexWrap="wrap" gap={1}>
           {Object.keys(colorSets).map((type) => (
