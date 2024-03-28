@@ -76,13 +76,14 @@ export async function PokemonAbilities({ name }: IProps) {
       <Typography variant="h4" mb={1}>
         Abilities
       </Typography>
-      <Stack direction="row" gap={1}>
-        {pokemonInfo.abilities.map((ability) => (
+      <Stack direction="row" gap={1} flexWrap="wrap">
+        {pokemonInfo.abilities.map((ability, index) => (
           <Typography
             key={`${name}_ability_${ability.ability.name}`}
             variant="h6"
           >
             {ability.ability.name}
+            {pokemonInfo.abilities.length - 1 !== index && ","}
           </Typography>
         ))}
       </Stack>

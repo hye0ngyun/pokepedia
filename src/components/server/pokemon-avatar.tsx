@@ -96,7 +96,6 @@ export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
               alt="pokemon logo"
               width={200}
               height={200}
-              priority
             />
             <Image
               className="hoverImage"
@@ -110,7 +109,6 @@ export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
               alt="pokemon logo"
               width={200}
               height={200}
-              priority
             />
           </Box>
           <Box
