@@ -5,52 +5,114 @@ import pokemonService from "@/lib/services/pokemonService";
 import Link from "next/link";
 import { colorSets } from "@/lib/colorSets";
 import Chip from "./ui/type-chip";
+import { getFlavorText, getIdFromUrl, getName } from "@/lib/utils";
 interface IPokemonAvatar {
   name: string;
   isSpec?: boolean;
 }
 export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
   const pokemonInfo = await pokemonService.getPokemon(name);
+  const species = pokemonInfo.species;
+  const speciesId = getIdFromUrl(species.url);
+  const pokemonSpecies = await pokemonService.getSpecies(speciesId);
 
   const id = pokemonInfo.id + "";
   const imageUrl = pokemonInfo.sprites?.front_default ?? PokemonLogo;
+  const hoverImageUrl =
+    (pokemonInfo.sprites?.other.dream_world.front_default ||
+      pokemonInfo.sprites?.front_shiny ||
+      imageUrl) ??
+    PokemonLogo;
   const types = pokemonInfo.types;
 
   return (
-    <Box
+    <Stack
       sx={{
         bgcolor: "#fff",
         borderRadius: 2,
         minHeight: 300,
+        height: "100%",
         boxShadow: "2px 2px 5px 2px #aaa3",
       }}
     >
-      <Link scroll={false} href={isSpec ? "" : `/pokemon/${name}`}>
+      <Link
+        scroll={false}
+        href={isSpec ? "" : `/pokemon/${name}`}
+        style={{ flexGrow: 1 }}
+      >
         <Box
           sx={{
             borderStartStartRadius: 5,
             borderTopRightRadius: 5,
             p: 2,
+            height: "100%",
             transition: "0.35s",
+            position: "relative",
+            "& .hoverImage": {
+              opacity: 0,
+              display: "none",
+              visibility: "hidden",
+              position: "absolute",
+              top: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
+            },
+            "& .originImage": {
+              opacity: 1,
+              visibility: "visible",
+            },
             "&:hover": {
               bgcolor: isSpec ? "#fff" : "primary.light",
+              "& .hoverImage": {
+                opacity: 1,
+                visibility: "visible",
+              },
+              "& .originImage": {
+                opacity: 0,
+                visibility: "hidden",
+              },
             },
           }}
         >
-          <Box>#{id.padStart(3, "0")}</Box>
-          <Image
-            style={{
-              margin: "40px auto",
-              display: "block",
-              maxWidth: "100%",
-              objectFit: "contain",
+          <Stack direction="row" justifyContent="space-between">
+            <Box>#{id.padStart(3, "0")}</Box>
+            <Box>종족: {getName(pokemonSpecies.names)}</Box>
+          </Stack>
+          <Box
+            sx={{
+              position: "relative",
             }}
-            src={imageUrl}
-            alt="pokemon logo"
-            width={200}
-            height={200}
-            priority
-          />
+          >
+            <Image
+              className="originImage"
+              style={{
+                margin: "40px auto",
+                display: "block",
+                maxWidth: "100%",
+                objectFit: "contain",
+                transition: "0.35s",
+              }}
+              src={imageUrl}
+              alt="pokemon logo"
+              width={200}
+              height={200}
+              priority
+            />
+            <Image
+              className="hoverImage"
+              style={{
+                display: "block",
+                maxWidth: "100%",
+                objectFit: "contain",
+                transition: "0.35s",
+              }}
+              src={hoverImageUrl}
+              alt="pokemon logo"
+              width={200}
+              height={200}
+              priority
+            />
+          </Box>
           <Box
             sx={{
               minHeight: 85,
@@ -61,8 +123,10 @@ export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
           >
             {name}
           </Box>
+          <p>{getFlavorText(pokemonSpecies.flavor_text_entries)}</p>
         </Box>
       </Link>
+
       <Stack
         borderTop={1}
         borderColor="#EEEEEE"
@@ -81,7 +145,7 @@ export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
           </Link>
         ))}
       </Stack>
-    </Box>
+    </Stack>
   );
 }
 export function LoadingPokemonAvatar({ name = "" }: { name?: string }) {

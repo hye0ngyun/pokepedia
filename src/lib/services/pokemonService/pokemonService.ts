@@ -42,6 +42,8 @@ interface IPokemon {
   weight: number;
   sprites: {
     front_default: string;
+    front_shiny: string;
+    other: { dream_world: { front_default: string } };
   };
   types: IPokemonType[];
   moves: {
@@ -63,6 +65,10 @@ interface IPokemon {
   }[];
   stats: IPokemonStat[];
   abilities: IAbilitie[];
+  species: {
+    name: string;
+    url: string;
+  };
 }
 /** 포켓몬 상세조회 */
 async function getPokemon(name: string): Promise<IPokemon> {
@@ -86,17 +92,7 @@ interface IMove {
     name: string;
     url: string;
   };
-  flavor_text_entries: {
-    flavor_text: string;
-    language: {
-      name: string;
-      url: string;
-    };
-    version_group: {
-      name: string;
-      url: string;
-    };
-  }[];
+  flavor_text_entries: IFlavorText[];
   meta: {
     category: {
       name: string;
@@ -127,11 +123,115 @@ interface IType {
     };
   }[];
   name: string;
-  names: { language: { name: string; url: string }; name: string }[];
+  names: IName[];
+}
+export interface IName {
+  language: { name: string; url: string };
+  name: string;
 }
 /** 타입 상세조회 */
 async function getType(name: string): Promise<IType> {
   return fetch(`${BASE_URL}/type/${name}`).then((response) => response.json());
+}
+
+export interface IFlavorText {
+  flavor_text: string;
+  language: {
+    name: string;
+    url: string;
+  };
+  version?: {
+    name: string;
+    url: string;
+  };
+  version_group?: {
+    name: string;
+    url: string;
+  };
+}
+interface ISpecies {
+  id: number;
+  name: string;
+  order: number;
+  gender_rate: number;
+  capture_rate: number;
+  base_happiness: number;
+  is_baby: boolean;
+  is_legendary: boolean;
+  is_mythical: boolean;
+  hatch_counter: number;
+  has_gender_differences: boolean;
+  forms_switchable: boolean;
+  growth_rate: {
+    name: string;
+    url: string;
+  };
+  pokedex_numbers: {
+    entry_number: number;
+    pokedex: {
+      name: string;
+      url: string;
+    };
+  }[];
+  egg_groups: {
+    name: string;
+    url: string;
+  }[];
+  color: {
+    name: string;
+    url: string;
+  };
+  shape: {
+    name: string;
+    url: string;
+  };
+  evolves_from_species: {
+    name: string;
+    url: string;
+  };
+  evolution_chain: {
+    url: string;
+  };
+  habitat: null;
+  generation: {
+    name: string;
+    url: string;
+  };
+  names: {
+    name: string;
+    language: {
+      name: string;
+      url: string;
+    };
+  }[];
+  flavor_text_entries: IFlavorText[];
+  form_descriptions: {
+    description: string;
+    language: {
+      name: string;
+      url: string;
+    };
+  }[];
+  genera: {
+    genus: string;
+    language: {
+      name: string;
+      url: string;
+    };
+  }[];
+  varieties: {
+    is_default: boolean;
+    pokemon: {
+      name: string;
+      url: string;
+    };
+  }[];
+}
+/** 종족 상세 조회 */
+async function getSpecies(name: string | number): Promise<ISpecies> {
+  return fetch(`${BASE_URL}/pokemon-species/${name}`).then((response) =>
+    response.json()
+  );
 }
 
 const services = {
@@ -139,5 +239,6 @@ const services = {
   getPokemonList,
   getMove,
   getType,
+  getSpecies,
 };
 export default services;

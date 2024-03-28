@@ -1,4 +1,5 @@
 import pokemonService from "@/lib/services/pokemonService";
+import { getFlavorText, getIdFromUrl } from "@/lib/utils";
 import { ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
@@ -197,13 +198,7 @@ async function PokemonMove({ id }: { id: number }) {
         {move.name}
       </AccordionSummary>
       <AccordionDetails>
-        <p>
-          description:{" "}
-          {move.flavor_text_entries.find((el) => el.language.name === "en")
-            ?.flavor_text ||
-            move.flavor_text_entries.find((el) => el.language.name === "ko")
-              ?.flavor_text}
-        </p>
+        <p>description: {getFlavorText(move.flavor_text_entries)}</p>
         <Box sx={{ overflowX: "scroll" }}>
           <Table stickyHeader>
             <TableHead>
@@ -246,3 +241,33 @@ async function PokemonMove({ id }: { id: number }) {
 export function LoadingPokemonMove() {
   return <Skeleton height={50} />;
 }
+
+/** species */
+export async function PokemonSpecies({ name }: IProps) {
+  const pokemonInfo = await pokemonService.getPokemon(name);
+  const species = pokemonInfo.species;
+  const speciesId = getIdFromUrl(species.url);
+  const pokemonSpecies = await pokemonService.getSpecies(speciesId);
+  return (
+    <Box
+      sx={{
+        bgcolor: "#fff",
+        p: 2,
+        borderRadius: 2,
+        boxShadow: "2px 2px 5px 2px #aaa3",
+      }}
+    >
+      <Typography variant="h4" mb={1}>
+        Species
+      </Typography>
+      <div>
+        {pokemonSpecies.varieties.map((variety) => (
+          <div key={`${name}_species_${variety.pokemon.name}`}>
+            {variety.pokemon.name}
+          </div>
+        ))}
+      </div>
+    </Box>
+  );
+}
+export function LoadingPokemonSpecies() {}

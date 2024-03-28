@@ -5,9 +5,11 @@ import {
 import {
   LoadingPokemonAbilities,
   LoadingPokemonMoves,
+  LoadingPokemonSpecies,
   LoadingPokemonStats,
   PokemonAbilities,
   PokemonMoves,
+  PokemonSpecies,
   PokemonStats,
 } from "@/components/pokemon-info";
 import { Grid, Stack } from "@mui/material";
@@ -16,7 +18,11 @@ import { Suspense } from "react";
 /**
  * 상세 페이지
  */
-export default function PokemonSpec({ params }: { params: { name: string } }) {
+export default async function PokemonSpec({
+  params,
+}: {
+  params: { name: string };
+}) {
   const name = params?.name || "";
 
   return (
@@ -32,6 +38,9 @@ export default function PokemonSpec({ params }: { params: { name: string } }) {
             </Suspense>
             <Suspense fallback={<LoadingPokemonStats />}>
               <PokemonStats name={name} />
+            </Suspense>
+            <Suspense fallback={<LoadingPokemonSpecies />}>
+              <PokemonSpecies name={name} />
             </Suspense>
           </Stack>
         </Grid>
