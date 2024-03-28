@@ -2,7 +2,7 @@
 import { Pagination, Stack } from "@mui/material";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function ListPagination({
   totalPages = 1,
@@ -15,34 +15,34 @@ export default function ListPagination({
   const [page, setPage] = useState(0);
   const router = useRouter();
 
-  const createPageURL = (
-    event: React.ChangeEvent<unknown>,
-    value: number | string
-  ) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", value.toString());
-    router.push(`/?page=${value}`);
-    return `${pathname}?${params.toString()}`;
-  };
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   /**
    * 페이지네이션 이벤트
    */
   const onHandleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     if (value === page) return;
+    router.push(`${pathname}?${createQueryString("page", value.toString())}`);
     setPage(value);
     window.scrollTo({ top: 0, behavior: "smooth" });
-    router.push(`/?page=${value}`);
   };
   /**
    * 페이지네이션 유지
    */
   useEffect(() => {
     if (!defaultPage) {
-      router.replace(`/?page=1`);
+      router.replace(`${pathname}?page=1`);
     }
     setPage(defaultPage);
-  }, [router, defaultPage]);
+  }, [router, defaultPage, pathname]);
   return (
     <Stack mt={5}>
       <Pagination
