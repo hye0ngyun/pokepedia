@@ -4,10 +4,12 @@ import {
 } from "@/components/server/pokemon-avatar";
 import {
   LoadingPokemonAbilities,
+  LoadingPokemonEvolutionChain,
   LoadingPokemonMoves,
   LoadingPokemonSpecies,
   LoadingPokemonStats,
   PokemonAbilities,
+  PokemonEvolutionChain,
   PokemonMoves,
   PokemonSpecies,
   PokemonStats,
@@ -41,6 +43,9 @@ export default async function PokemonSpec({
             </Suspense>
             <Suspense fallback={<LoadingPokemonSpecies />}>
               <PokemonSpecies name={name} />
+            </Suspense>
+            <Suspense fallback={<LoadingPokemonEvolutionChain />}>
+              <PokemonEvolutionChain name={name} />
             </Suspense>
           </Stack>
         </Grid>

@@ -1,6 +1,6 @@
 import pokemonService from "@/lib/services/pokemonService";
 import { getFlavorText, getIdFromUrl } from "@/lib/utils";
-import { ExpandMore } from "@mui/icons-material";
+import { East, ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -16,6 +16,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
 import { Suspense } from "react";
 
 export const boxStyle = {
@@ -42,7 +44,11 @@ export async function PokemonStats({ name }: IProps) {
             <Typography variant="h5">{stat.stat.name}</Typography>
             <Typography variant="h6">{stat.base_stat}</Typography>
           </Stack>
-          <LinearProgress variant="determinate" value={stat.base_stat} />
+          <LinearProgress
+            variant="determinate"
+            value={stat.base_stat / 2}
+            color={stat.base_stat / 2 >= 50 ? "secondary" : "primary"}
+          />
         </Stack>
       ))}
     </Stack>
@@ -233,13 +239,13 @@ export async function PokemonSpecies({ name }: IProps) {
       <Typography variant="h4" mb={1}>
         Species
       </Typography>
-      <div>
+      <Stack flexWrap="wrap" direction="row" gap={1}>
         {pokemonSpecies.varieties.map((variety) => (
-          <div key={`${name}_species_${variety.pokemon.name}`}>
-            {variety.pokemon.name}
-          </div>
+          <Suspense key={`${name}_species_${variety.pokemon.name}`}>
+            <PokemonEvolutionInfo isFirst name={variety.pokemon.name} />
+          </Suspense>
         ))}
-      </div>
+      </Stack>
     </Box>
   );
 }
@@ -253,5 +259,120 @@ export function LoadingPokemonSpecies() {
       <Skeleton height={30} />
       <Skeleton height={30} />
     </Box>
+  );
+}
+
+/** evolution-chain */
+export async function PokemonEvolutionChain({ name }: IProps) {
+  const pokemonInfo = await pokemonService.getPokemon(name);
+  const species = pokemonInfo.species;
+  const speciesId = getIdFromUrl(species.url);
+  const pokemonSpecies = await pokemonService.getSpecies(speciesId);
+  const evolutionChainId = getIdFromUrl(pokemonSpecies.evolution_chain.url);
+  const pokemonEvolutionChain = await pokemonService.getEvolutionChain(
+    evolutionChainId
+  );
+  return (
+    <Stack sx={boxStyle}>
+      <Typography variant="h4" mb={1}>
+        Evolution Chain
+      </Typography>
+      <Stack direction="row">
+        {/* gen1 */}
+        <Stack justifyContent="center">
+          {/* <Typography variant="h5">gen1</Typography> */}
+          <Suspense fallback="...">
+            <PokemonEvolutionInfo
+              isFirst
+              name={pokemonEvolutionChain.chain.species.name}
+            />
+          </Suspense>
+        </Stack>
+        {pokemonEvolutionChain.chain.evolves_to.length ? (
+          <>
+            {/* gen2 */}
+            <Stack>
+              {/* <Typography variant="h5">gen2</Typography> */}
+              {pokemonEvolutionChain.chain.evolves_to.map((evolve) => {
+                return (
+                  <Stack
+                    direction="row"
+                    key={`evloution_${name}_${evolve.species.name}`}
+                  >
+                    <Suspense>
+                      <PokemonEvolutionInfo name={evolve.species.name} />
+                    </Suspense>
+                    {evolve?.evolves_to.length ? (
+                      <Stack>
+                        {/* <Typography variant="h5">gen3</Typography> */}
+                        {evolve?.evolves_to.map((deepEvolve) => (
+                          <Suspense
+                            key={`evolution_${name}_${deepEvolve.species.name}`}
+                          >
+                            <PokemonEvolutionInfo
+                              name={deepEvolve.species.name}
+                            />
+                          </Suspense>
+                        ))}
+                      </Stack>
+                    ) : null}
+                  </Stack>
+                );
+              })}
+            </Stack>
+          </>
+        ) : null}
+      </Stack>
+    </Stack>
+  );
+}
+export function LoadingPokemonEvolutionChain() {
+  return (
+    <Box sx={boxStyle}>
+      <Typography variant="h4" mb={1}>
+        Species
+      </Typography>
+      <Skeleton height={30} />
+      <Skeleton height={30} />
+      <Skeleton height={30} />
+    </Box>
+  );
+}
+async function PokemonEvolutionInfo({
+  name,
+  isFirst = false,
+}: {
+  name: string;
+  isFirst?: boolean;
+}) {
+  const pokemonInfo = await pokemonService.getPokemon(name);
+  const imageUrl =
+    pokemonInfo.sprites.other.showdown.front_default ??
+    pokemonInfo.sprites?.front_default;
+  return (
+    <Stack direction="row" alignItems="center" gap={1}>
+      {!isFirst ? <East /> : null}
+      <Link href={`/pokemon/${name}`}>
+        <Stack alignItems="center" gap={1}>
+          <Stack
+            sx={{
+              height: 100,
+              px: 3,
+            }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Image
+              src={imageUrl}
+              alt={`${name}_image`}
+              width={200}
+              height={200}
+              style={{ width: "fit-content", height: "auto" }}
+            />
+          </Stack>
+          {name}
+        </Stack>
+      </Link>
+    </Stack>
   );
 }

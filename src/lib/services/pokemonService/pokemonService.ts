@@ -43,7 +43,10 @@ interface IPokemon {
   sprites: {
     front_default: string;
     front_shiny: string;
-    other: { dream_world: { front_default: string } };
+    other: {
+      dream_world: { front_default: string };
+      showdown: { front_default: string };
+    };
   };
   types: IPokemonType[];
   moves: {
@@ -233,6 +236,58 @@ async function getSpecies(name: string | number): Promise<ISpecies> {
     response.json()
   );
 }
+interface IEvolutionDetail {
+  is_baby: boolean;
+  species: {
+    name: string;
+    url: string;
+  };
+  evolution_details: {
+    item: null;
+    trigger: {
+      name: string;
+      url: string;
+    };
+    gender: null;
+    held_item: null;
+    known_move: null;
+    known_move_type: null;
+    location: null;
+    min_level: 20;
+    min_happiness: null;
+    min_beauty: null;
+    min_affection: null;
+    needs_overworld_rain: boolean;
+    party_species: null;
+    party_type: null;
+    relative_physical_stats: null;
+    time_of_day: "";
+    trade_species: null;
+    turn_upside_down: boolean;
+  };
+  evolves_to: IEvolveTo[];
+}
+interface IEvolveTo {
+  is_baby: boolean;
+  species: {
+    name: string;
+    url: string;
+  };
+  evolution_detail: IEvolutionDetail;
+  evolves_to: IEvolveTo[];
+}
+interface IEvolutionChain {
+  id: number;
+  baby_trigger_item: null;
+  chain: IEvolveTo;
+}
+
+/** 진화 연쇄 조회 */
+async function getEvolutionChain(id: number): Promise<IEvolutionChain> {
+  return fetch(`${BASE_URL}/evolution-chain/${id}`).then((response) =>
+    response.json()
+  );
+}
 
 const services = {
   getPokemon,
@@ -240,5 +295,6 @@ const services = {
   getMove,
   getType,
   getSpecies,
+  getEvolutionChain,
 };
 export default services;
