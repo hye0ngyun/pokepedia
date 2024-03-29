@@ -277,7 +277,7 @@ export async function PokemonEvolutionChain({ name }: IProps) {
       <Typography variant="h4" mb={1}>
         Evolution Chain
       </Typography>
-      <Stack direction="row">
+      <Stack direction="row" sx={{ overflowX: "auto" }}>
         {/* gen1 */}
         <Stack justifyContent="center">
           {/* <Typography variant="h5">gen1</Typography> */}

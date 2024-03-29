@@ -25,7 +25,7 @@ export default async function PokemonSpec({
 }: {
   params: { name: string };
 }) {
-  const name = params?.name || "";
+  const name = params?.name.toLowerCase() || "";
 
   return (
     <main>
