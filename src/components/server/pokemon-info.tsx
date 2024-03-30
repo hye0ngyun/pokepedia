@@ -239,9 +239,12 @@ export async function PokemonSpecies({ name }: IProps) {
       <Typography variant="h4" mb={1}>
         Species
       </Typography>
-      <Stack flexWrap="wrap" direction="row" gap={1}>
+      <Stack flexWrap="wrap" direction="row" gap={2}>
         {pokemonSpecies.varieties.map((variety) => (
-          <Suspense key={`${name}_species_${variety.pokemon.name}`}>
+          <Suspense
+            fallback={<LoadingPokemonEvolutionInfo />}
+            key={`${name}_species_${variety.pokemon.name}`}
+          >
             <PokemonEvolutionInfo isFirst name={variety.pokemon.name} />
           </Suspense>
         ))}
@@ -255,9 +258,11 @@ export function LoadingPokemonSpecies() {
       <Typography variant="h4" mb={1}>
         Species
       </Typography>
-      <Skeleton height={30} />
-      <Skeleton height={30} />
-      <Skeleton height={30} />
+      <Stack flexWrap="wrap" direction="row" gap={2}>
+        <LoadingPokemonEvolutionInfo />
+        <LoadingPokemonEvolutionInfo />
+        <LoadingPokemonEvolutionInfo />
+      </Stack>
     </Box>
   );
 }
@@ -277,11 +282,11 @@ export async function PokemonEvolutionChain({ name }: IProps) {
       <Typography variant="h4" mb={1}>
         Evolution Chain
       </Typography>
-      <Stack direction="row" sx={{ overflowX: "auto" }}>
+      <Stack direction="row" sx={{ overflowX: "auto" }} gap={2}>
         {/* gen1 */}
         <Stack justifyContent="center">
           {/* <Typography variant="h5">gen1</Typography> */}
-          <Suspense fallback="...">
+          <Suspense fallback={<LoadingPokemonEvolutionInfo />}>
             <PokemonEvolutionInfo
               isFirst
               name={pokemonEvolutionChain.chain.species.name}
@@ -299,7 +304,7 @@ export async function PokemonEvolutionChain({ name }: IProps) {
                     direction="row"
                     key={`evloution_${name}_${evolve.species.name}`}
                   >
-                    <Suspense>
+                    <Suspense fallback={<LoadingPokemonEvolutionInfo />}>
                       <PokemonEvolutionInfo name={evolve.species.name} />
                     </Suspense>
                     {evolve?.evolves_to.length ? (
@@ -308,6 +313,7 @@ export async function PokemonEvolutionChain({ name }: IProps) {
                         {evolve?.evolves_to.map((deepEvolve) => (
                           <Suspense
                             key={`evolution_${name}_${deepEvolve.species.name}`}
+                            fallback={<LoadingPokemonEvolutionInfo />}
                           >
                             <PokemonEvolutionInfo
                               name={deepEvolve.species.name}
@@ -330,11 +336,13 @@ export function LoadingPokemonEvolutionChain() {
   return (
     <Box sx={boxStyle}>
       <Typography variant="h4" mb={1}>
-        Species
+        Evolution Chain
       </Typography>
-      <Skeleton height={30} />
-      <Skeleton height={30} />
-      <Skeleton height={30} />
+      <Stack direction="row" gap={2}>
+        <LoadingPokemonEvolutionInfo />
+        <LoadingPokemonEvolutionInfo />
+        <LoadingPokemonEvolutionInfo />
+      </Stack>
     </Box>
   );
 }
@@ -373,6 +381,14 @@ async function PokemonEvolutionInfo({
           {name}
         </Stack>
       </Link>
+    </Stack>
+  );
+}
+function LoadingPokemonEvolutionInfo() {
+  return (
+    <Stack gap={1}>
+      <Skeleton width={50} height={50} variant="circular" />
+      <Skeleton width={50} height={30} />
     </Stack>
   );
 }
