@@ -5,11 +5,13 @@ import {
 import {
   LoadingPokemonAbilities,
   LoadingPokemonEvolutionChain,
+  LoadingPokemonLocation,
   LoadingPokemonMoves,
   LoadingPokemonSpecies,
   LoadingPokemonStats,
   PokemonAbilities,
   PokemonEvolutionChain,
+  PokemonLocation,
   PokemonMoves,
   PokemonSpecies,
   PokemonStats,
@@ -35,24 +37,29 @@ export default async function PokemonSpec({
             <Suspense fallback={<LoadingPokemonAvatar />}>
               <PokemonAvatar isSpec name={name} />
             </Suspense>
+            <Suspense fallback={<LoadingPokemonLocation />}>
+              <PokemonLocation name={name} />
+            </Suspense>
             <Suspense fallback={<LoadingPokemonAbilities />}>
               <PokemonAbilities name={name} />
             </Suspense>
             <Suspense fallback={<LoadingPokemonStats />}>
               <PokemonStats name={name} />
             </Suspense>
+          </Stack>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Stack spacing={2}>
             <Suspense fallback={<LoadingPokemonSpecies />}>
               <PokemonSpecies name={name} />
             </Suspense>
             <Suspense fallback={<LoadingPokemonEvolutionChain />}>
               <PokemonEvolutionChain name={name} />
             </Suspense>
+            <Suspense fallback={<LoadingPokemonMoves />}>
+              <PokemonMoves name={name} />
+            </Suspense>
           </Stack>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Suspense fallback={<LoadingPokemonMoves />}>
-            <PokemonMoves name={name} />
-          </Suspense>
         </Grid>
       </Grid>
     </main>

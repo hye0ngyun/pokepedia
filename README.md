@@ -21,7 +21,7 @@ https://pokepedia-kr.netlify.com
 
   - api: https://pokeapi.co/api/v2/pokemon/
   - 필수 구현: 썸네일, 이름
-  - 추가 구현: 추가 조회(페이지네이션), 번호, 속성 등
+  - 추가 구현: 추가 조회(페이지네이션), 번호, 속성, 지역 등
 
 - 포켓몬 상세 조회 [complete - 24.03.27 14:02]
 
@@ -32,12 +32,24 @@ https://pokepedia-kr.netlify.com
 ### 추가 구현
 
 - 속성 검색 기능 [complete - 24.03.27 18:27]
-  - api: https://pokeapi.co/api/v2/type/
+
+  - api:
+    - https://pokeapi.co/api/v2/type/
+    - https://pokeapi.co/api/v2/type/{:name}
   - 구현:
     - 특정 속성을 클릭해서 해당 속성에 해당하는 포켓몬들을 모아서 볼 수 있도록 하는 기능
     - 해당 속성의 강타입, 약타입 관계 확인 가능
       - 존재하지 않으면 없음 표시
     - 해당 속성의 포켓몬 수 확인 가능
+
+- 포켓몬 상세 조회 시 종족, 진화 연쇄를 시각적으로 확인 가능 [complete - 24.03.29 14:34]
+  - api:
+    - https://pokeapi.co/api/v2/pokemon-species/{:id or :name}
+    - https://pokeapi.co/api/v2/evolution-chain/{:id}
+
+- 포켓몬 상세 조회 시 마주칠 수 있는 지역 확인 가능 [complete - 24.03.31 09:56]
+  - api:
+    - https://pokeapi.co/api/v2/pokemon/{:id or :name}/encounters
 
 ## 사용 기술
 

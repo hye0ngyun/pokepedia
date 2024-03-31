@@ -72,6 +72,7 @@ interface IPokemon {
     name: string;
     url: string;
   };
+  location_area_encounters: string;
 }
 /** 포켓몬 상세조회 */
 async function getPokemon(name: string): Promise<IPokemon> {
@@ -289,6 +290,38 @@ async function getEvolutionChain(id: number): Promise<IEvolutionChain> {
   );
 }
 
+interface IEncounter {
+  location_area: {
+    name: string;
+    url: string;
+  };
+  version_details: {
+    encounter_details: {
+      chance: number;
+      condition_values: {
+        name: string;
+        url: string;
+      }[];
+      max_level: number;
+      method: {
+        name: string;
+        url: string;
+      };
+      min_level: number;
+    }[];
+    max_chance: number;
+    version: {
+      name: string;
+      url: string;
+    };
+  }[];
+}
+
+/** 마주칠 수 있는 지역 상세 조회 */
+async function getEncountes(url: string): Promise<IEncounter[]> {
+  return fetch(url).then((response) => response.json());
+}
+
 const services = {
   getPokemon,
   getPokemonList,
@@ -296,5 +329,6 @@ const services = {
   getType,
   getSpecies,
   getEvolutionChain,
+  getEncountes,
 };
 export default services;

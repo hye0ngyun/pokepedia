@@ -30,6 +30,35 @@ export const boxStyle = {
 interface IProps {
   name: string;
 }
+
+/** loaction */
+export async function PokemonLocation({ name }: IProps) {
+  const pokemonInfo = await pokemonService.getPokemon(name);
+  const url = pokemonInfo.location_area_encounters;
+  const pokemonEncounters = await pokemonService.getEncountes(url);
+  const locationName =
+    pokemonEncounters[0]?.location_area.name || "unknwon or evolution pokemon";
+
+  return (
+    <Stack sx={boxStyle} gap={1}>
+      <Typography variant="h4" mb={1}>
+        Location
+      </Typography>
+      <Typography variant="h6">{locationName}</Typography>
+    </Stack>
+  );
+}
+export function LoadingPokemonLocation() {
+  return (
+    <Stack sx={boxStyle} gap={1}>
+      <Typography variant="h4" mb={1}>
+        Location
+      </Typography>
+      <Skeleton />
+    </Stack>
+  );
+}
+
 /** stats */
 export async function PokemonStats({ name }: IProps) {
   const pokemonInfo = await pokemonService.getPokemon(name);
@@ -303,6 +332,7 @@ export async function PokemonEvolutionChain({ name }: IProps) {
                   <Stack
                     direction="row"
                     key={`evloution_${name}_${evolve.species.name}`}
+                    gap={2}
                   >
                     <Suspense fallback={<LoadingPokemonEvolutionInfo />}>
                       <PokemonEvolutionInfo name={evolve.species.name} />
