@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
 import Link from "next/link";
-import { PokemonAutocompleteSearch } from "../server/pokemon-autocomplete-search";
+import PokemonAutocompleteSearch from "./pokemon-autocomplete-search";
 
 export default function Header() {
   return (

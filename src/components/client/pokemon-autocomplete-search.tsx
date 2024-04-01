@@ -11,7 +11,7 @@ type TOption = {
   name: string;
   label: string;
 };
-export function PokemonAutocompleteSearch() {
+export default function PokemonAutocompleteSearch() {
   const router = useRouter();
   const [isSearch, setIsSearch] = useState(false);
   const [options, setOptions] = useState<TOption[]>();
