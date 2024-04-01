@@ -394,8 +394,9 @@ async function PokemonEvolutionInfo({
         <Stack alignItems="center" gap={1}>
           <Stack
             sx={{
+              width: 100,
               height: 100,
-              px: 3,
+              px: 2,
             }}
             alignItems="center"
             justifyContent="center"
@@ -405,7 +406,10 @@ async function PokemonEvolutionInfo({
               alt={`${name}_image`}
               width={200}
               height={200}
-              style={{ width: "fit-content", height: "auto" }}
+              style={{ width: "100%", height: "auto", objectFit: "contain" }}
+              // XXX: gif will not be optimized. Consider adding the "unoptimized" property to the <Image>
+              unoptimized
+              priority
             />
           </Stack>
           {name}

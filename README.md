@@ -2,9 +2,12 @@
 
 포켓몬 백과사전
 
+
 ## url
 
 https://pokepedia-kr.netlify.com
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/cfad446b-94a6-476a-83e9-c9e74f0cbcba/deploy-status)](https://app.netlify.com/sites/pokepedia-kr/deploys)
 
 ## 구현 목적
 
