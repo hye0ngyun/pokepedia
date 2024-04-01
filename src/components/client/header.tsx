@@ -5,13 +5,14 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
 import Link from "next/link";
+import { PokemonAutocompleteSearch } from "../server/pokemon-autocomplete-search";
 
 export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" id="back-to-top-anchor">
         <Toolbar variant="regular">
-          <Stack direction="row" gap={2} alignItems="center">
+          <Stack direction="row" gap={2} alignItems="center" width="100%">
             <Link scroll={false} href="/">
               <Typography
                 variant="h4"
@@ -46,6 +47,7 @@ export default function Header() {
                 TYPE
               </Box>
             </Link>
+            <PokemonAutocompleteSearch />
           </Stack>
         </Toolbar>
       </AppBar>
