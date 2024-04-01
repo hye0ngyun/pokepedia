@@ -1,6 +1,5 @@
 import { colorSets } from "@/lib/utils";
-import { CircleOutlined } from "@mui/icons-material";
-import { Box, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import Image from "next/image";
 
 export default function TypeChip({ text }: { text: string }) {

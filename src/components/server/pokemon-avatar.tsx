@@ -1,6 +1,6 @@
 import Image from "next/image";
 import PokemonLogo from "/public/pokemon-logo.png";
-import { Box, Grid, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Skeleton, Stack } from "@mui/material";
 import pokemonService from "@/lib/services/pokemonService";
 import Link from "next/link";
 import Chip from "../client/type-chip";
