@@ -2,7 +2,6 @@
 
 포켓몬 백과사전
 
-
 ## url
 
 https://pokepedia-kr.netlify.com
@@ -46,6 +45,7 @@ https://pokepedia-kr.netlify.com
     - 해당 속성의 포켓몬 수 확인 가능
 
 - 포켓몬 상세 조회 시 종족, 진화 연쇄를 시각적으로 확인 가능 [complete - 24.03.29 14:34]
+
   - api:
     - https://pokeapi.co/api/v2/pokemon-species/{:id or :name}
     - https://pokeapi.co/api/v2/evolution-chain/{:id}
@@ -53,6 +53,11 @@ https://pokepedia-kr.netlify.com
 - 포켓몬 상세 조회 시 마주칠 수 있는 지역 확인 가능 [complete - 24.03.31 09:56]
   - api:
     - https://pokeapi.co/api/v2/pokemon/{:id or :name}/encounters
+
+- 포켓몬 이름 검색 가능 [complete - 24.04.01 18:46]
+  - api:
+    - https://pokeapi.co/api/v2/pokemon/
+  - auto complete search box를 추가하여 포켓몬 이름 검색으로 상세 조회
 
 ## 사용 기술
 
