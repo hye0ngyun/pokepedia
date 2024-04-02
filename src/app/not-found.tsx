@@ -3,8 +3,10 @@ import Image from "next/image";
 import Image404 from "./404.webp";
 import { ArrowBack } from "@mui/icons-material";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 
 export default function NotFound() {
+  revalidatePath("/");
   return (
     <Stack alignItems="center" gap={5} p={5}>
       <Typography variant="h2">404</Typography>
