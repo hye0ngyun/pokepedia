@@ -1,6 +1,6 @@
 import Image from "next/image";
 import PokemonLogo from "/public/pokemon-logo.png";
-import { Box, Grid, Skeleton, Stack, Typography } from "@mui/material";
+import { Box, Skeleton, Stack, Typography } from "@mui/material";
 import pokemonService from "@/lib/services/pokemonService";
 import Link from "next/link";
 import Chip from "../client/type-chip";
@@ -108,6 +108,7 @@ export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
               alt="pokemon logo"
               width={200}
               height={200}
+              priority={isSpec}
             />
           </Box>
           <Box
@@ -120,7 +121,12 @@ export async function PokemonAvatar({ name, isSpec = false }: IPokemonAvatar) {
           >
             {name}
           </Box>
-          <p>{getFlavorText(pokemonSpecies.flavor_text_entries)}</p>
+          <Typography
+            variant="body2"
+            sx={{ wordBreak: "keep-all", textAlign: "center" }}
+          >
+            {getFlavorText(pokemonSpecies.flavor_text_entries)}
+          </Typography>
         </Box>
       </Link>
 

@@ -1,6 +1,6 @@
 import pokemonService from "@/lib/services/pokemonService";
 import { getFlavorText, getIdFromUrl } from "@/lib/utils";
-import { ExpandMore } from "@mui/icons-material";
+import { East, ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -16,6 +16,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
 import { Suspense } from "react";
 
 export const boxStyle = {
@@ -28,6 +30,35 @@ export const boxStyle = {
 interface IProps {
   name: string;
 }
+
+/** loaction */
+export async function PokemonLocation({ name }: IProps) {
+  const pokemonInfo = await pokemonService.getPokemon(name);
+  const url = pokemonInfo.location_area_encounters;
+  const pokemonEncounters = await pokemonService.getEncountes(url);
+  const locationName =
+    pokemonEncounters[0]?.location_area.name || "unknwon or evolution pokemon";
+
+  return (
+    <Stack sx={boxStyle} gap={1}>
+      <Typography variant="h4" mb={1}>
+        Location
+      </Typography>
+      <Typography variant="h6">{locationName}</Typography>
+    </Stack>
+  );
+}
+export function LoadingPokemonLocation() {
+  return (
+    <Stack sx={boxStyle} gap={1}>
+      <Typography variant="h4" mb={1}>
+        Location
+      </Typography>
+      <Skeleton />
+    </Stack>
+  );
+}
+
 /** stats */
 export async function PokemonStats({ name }: IProps) {
   const pokemonInfo = await pokemonService.getPokemon(name);
@@ -42,7 +73,11 @@ export async function PokemonStats({ name }: IProps) {
             <Typography variant="h5">{stat.stat.name}</Typography>
             <Typography variant="h6">{stat.base_stat}</Typography>
           </Stack>
-          <LinearProgress variant="determinate" value={stat.base_stat} />
+          <LinearProgress
+            variant="determinate"
+            value={stat.base_stat / 2}
+            color={stat.base_stat / 2 >= 50 ? "secondary" : "primary"}
+          />
         </Stack>
       ))}
     </Stack>
@@ -79,7 +114,7 @@ export async function PokemonAbilities({ name }: IProps) {
       <Stack direction="row" gap={1} flexWrap="wrap">
         {pokemonInfo.abilities.map((ability, index) => (
           <Typography
-            key={`${name}_ability_${ability.ability.name}`}
+            key={`${name}_ability_${index}_${ability.ability.name}`}
             variant="h6"
           >
             {ability.ability.name}
@@ -233,13 +268,16 @@ export async function PokemonSpecies({ name }: IProps) {
       <Typography variant="h4" mb={1}>
         Species
       </Typography>
-      <div>
+      <Stack flexWrap="wrap" direction="row" gap={2}>
         {pokemonSpecies.varieties.map((variety) => (
-          <div key={`${name}_species_${variety.pokemon.name}`}>
-            {variety.pokemon.name}
-          </div>
+          <Suspense
+            fallback={<LoadingPokemonEvolutionInfo />}
+            key={`${name}_species_${variety.pokemon.name}`}
+          >
+            <PokemonEvolutionInfo isFirst name={variety.pokemon.name} />
+          </Suspense>
         ))}
-      </div>
+      </Stack>
     </Box>
   );
 }
@@ -249,9 +287,142 @@ export function LoadingPokemonSpecies() {
       <Typography variant="h4" mb={1}>
         Species
       </Typography>
-      <Skeleton height={30} />
-      <Skeleton height={30} />
-      <Skeleton height={30} />
+      <Stack flexWrap="wrap" direction="row" gap={2}>
+        <LoadingPokemonEvolutionInfo />
+        <LoadingPokemonEvolutionInfo />
+        <LoadingPokemonEvolutionInfo />
+      </Stack>
     </Box>
+  );
+}
+
+/** evolution-chain */
+export async function PokemonEvolutionChain({ name }: IProps) {
+  const pokemonInfo = await pokemonService.getPokemon(name);
+  const species = pokemonInfo.species;
+  const speciesId = getIdFromUrl(species.url);
+  const pokemonSpecies = await pokemonService.getSpecies(speciesId);
+  const evolutionChainId = getIdFromUrl(pokemonSpecies.evolution_chain.url);
+  const pokemonEvolutionChain = await pokemonService.getEvolutionChain(
+    evolutionChainId
+  );
+  return (
+    <Stack sx={boxStyle}>
+      <Typography variant="h4" mb={1}>
+        Evolution Chain
+      </Typography>
+      <Stack direction="row" sx={{ overflowX: "auto" }} gap={2}>
+        {/* gen1 */}
+        <Stack justifyContent="center">
+          {/* <Typography variant="h5">gen1</Typography> */}
+          <Suspense fallback={<LoadingPokemonEvolutionInfo />}>
+            <PokemonEvolutionInfo
+              isFirst
+              name={pokemonEvolutionChain.chain.species.name}
+            />
+          </Suspense>
+        </Stack>
+        {pokemonEvolutionChain.chain.evolves_to.length ? (
+          <>
+            {/* gen2 */}
+            <Stack>
+              {/* <Typography variant="h5">gen2</Typography> */}
+              {pokemonEvolutionChain.chain.evolves_to.map((evolve) => {
+                return (
+                  <Stack
+                    direction="row"
+                    key={`evloution_${name}_${evolve.species.name}`}
+                    gap={2}
+                  >
+                    <Suspense fallback={<LoadingPokemonEvolutionInfo />}>
+                      <PokemonEvolutionInfo name={evolve.species.name} />
+                    </Suspense>
+                    {evolve?.evolves_to.length ? (
+                      <Stack>
+                        {/* <Typography variant="h5">gen3</Typography> */}
+                        {evolve?.evolves_to.map((deepEvolve) => (
+                          <Suspense
+                            key={`evolution_${name}_${deepEvolve.species.name}`}
+                            fallback={<LoadingPokemonEvolutionInfo />}
+                          >
+                            <PokemonEvolutionInfo
+                              name={deepEvolve.species.name}
+                            />
+                          </Suspense>
+                        ))}
+                      </Stack>
+                    ) : null}
+                  </Stack>
+                );
+              })}
+            </Stack>
+          </>
+        ) : null}
+      </Stack>
+    </Stack>
+  );
+}
+export function LoadingPokemonEvolutionChain() {
+  return (
+    <Box sx={boxStyle}>
+      <Typography variant="h4" mb={1}>
+        Evolution Chain
+      </Typography>
+      <Stack direction="row" gap={2}>
+        <LoadingPokemonEvolutionInfo />
+        <LoadingPokemonEvolutionInfo />
+        <LoadingPokemonEvolutionInfo />
+      </Stack>
+    </Box>
+  );
+}
+async function PokemonEvolutionInfo({
+  name,
+  isFirst = false,
+}: {
+  name: string;
+  isFirst?: boolean;
+}) {
+  const pokemonInfo = await pokemonService.getPokemon(name);
+  const imageUrl =
+    pokemonInfo.sprites.other.showdown.front_default ??
+    pokemonInfo.sprites?.front_default;
+  return (
+    <Stack direction="row" alignItems="center" gap={1}>
+      {!isFirst ? <East /> : null}
+      <Link href={`/pokemon/${name}`}>
+        <Stack alignItems="center" gap={1}>
+          <Stack
+            sx={{
+              width: 100,
+              height: 100,
+              px: 2,
+            }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Image
+              src={imageUrl}
+              alt={`${name}_image`}
+              width={200}
+              height={200}
+              style={{ width: "100%", height: "auto", objectFit: "contain" }}
+              // XXX: gif will not be optimized. Consider adding the "unoptimized" property to the <Image>
+              unoptimized
+              priority
+            />
+          </Stack>
+          {name}
+        </Stack>
+      </Link>
+    </Stack>
+  );
+}
+function LoadingPokemonEvolutionInfo() {
+  return (
+    <Stack gap={1}>
+      <Skeleton width={50} height={50} variant="circular" />
+      <Skeleton width={50} height={30} />
+    </Stack>
   );
 }

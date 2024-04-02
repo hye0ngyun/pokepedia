@@ -43,7 +43,10 @@ interface IPokemon {
   sprites: {
     front_default: string;
     front_shiny: string;
-    other: { dream_world: { front_default: string } };
+    other: {
+      dream_world: { front_default: string };
+      showdown: { front_default: string };
+    };
   };
   types: IPokemonType[];
   moves: {
@@ -69,6 +72,7 @@ interface IPokemon {
     name: string;
     url: string;
   };
+  location_area_encounters: string;
 }
 /** 포켓몬 상세조회 */
 async function getPokemon(name: string): Promise<IPokemon> {
@@ -233,6 +237,90 @@ async function getSpecies(name: string | number): Promise<ISpecies> {
     response.json()
   );
 }
+interface IEvolutionDetail {
+  is_baby: boolean;
+  species: {
+    name: string;
+    url: string;
+  };
+  evolution_details: {
+    item: null;
+    trigger: {
+      name: string;
+      url: string;
+    };
+    gender: null;
+    held_item: null;
+    known_move: null;
+    known_move_type: null;
+    location: null;
+    min_level: 20;
+    min_happiness: null;
+    min_beauty: null;
+    min_affection: null;
+    needs_overworld_rain: boolean;
+    party_species: null;
+    party_type: null;
+    relative_physical_stats: null;
+    time_of_day: "";
+    trade_species: null;
+    turn_upside_down: boolean;
+  };
+  evolves_to: IEvolveTo[];
+}
+interface IEvolveTo {
+  is_baby: boolean;
+  species: {
+    name: string;
+    url: string;
+  };
+  evolution_detail: IEvolutionDetail;
+  evolves_to: IEvolveTo[];
+}
+interface IEvolutionChain {
+  id: number;
+  baby_trigger_item: null;
+  chain: IEvolveTo;
+}
+
+/** 진화 연쇄 조회 */
+async function getEvolutionChain(id: number): Promise<IEvolutionChain> {
+  return fetch(`${BASE_URL}/evolution-chain/${id}`).then((response) =>
+    response.json()
+  );
+}
+
+interface IEncounter {
+  location_area: {
+    name: string;
+    url: string;
+  };
+  version_details: {
+    encounter_details: {
+      chance: number;
+      condition_values: {
+        name: string;
+        url: string;
+      }[];
+      max_level: number;
+      method: {
+        name: string;
+        url: string;
+      };
+      min_level: number;
+    }[];
+    max_chance: number;
+    version: {
+      name: string;
+      url: string;
+    };
+  }[];
+}
+
+/** 마주칠 수 있는 지역 상세 조회 */
+async function getEncountes(url: string): Promise<IEncounter[]> {
+  return fetch(url).then((response) => response.json());
+}
 
 const services = {
   getPokemon,
@@ -240,5 +328,7 @@ const services = {
   getMove,
   getType,
   getSpecies,
+  getEvolutionChain,
+  getEncountes,
 };
 export default services;
