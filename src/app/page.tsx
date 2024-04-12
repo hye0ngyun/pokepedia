@@ -4,6 +4,7 @@ import PokemonList, { LoadingList } from "@/components/server/pokemon-list";
 import { Suspense } from "react";
 import pokemonService from "@/lib/services/pokemonService";
 import ListPagination from "@/components/client/pagination";
+import ListFilter from "@/components/client/list-filter";
 
 /**
  * 목록 페이지
@@ -13,12 +14,15 @@ export default async function Home({
 }: {
   searchParams?: {
     page?: string;
+    limit?: string;
   };
 }) {
   const currentPage = Number(searchParams?.page) || 1;
+  const limit = Number(searchParams?.limit) || 20;
+  const offset = Number(searchParams?.page) * limit - limit || 0;
 
   const totalPages = Math.ceil(
-    (await pokemonService.getPokemonList()).count / 20
+    (await pokemonService.getPokemonList(offset, limit)).count / limit
   );
 
   return (
@@ -34,8 +38,9 @@ export default async function Home({
         alt="pokemon logo"
         priority
       />
+      <ListFilter currentPage={currentPage} totalPages={totalPages} />
       <Suspense fallback={<LoadingList />}>
-        <PokemonList page={currentPage} />
+        <PokemonList page={currentPage} limit={limit} />
       </Suspense>
       <ListPagination totalPages={totalPages} />
     </main>
