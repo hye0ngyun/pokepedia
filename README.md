@@ -51,13 +51,17 @@ https://pokepedia-kr.netlify.com
     - https://pokeapi.co/api/v2/evolution-chain/{:id}
 
 - 포켓몬 상세 조회 시 마주칠 수 있는 지역 확인 가능 [complete - 24.03.31 09:56]
+
   - api:
     - https://pokeapi.co/api/v2/pokemon/{:id or :name}/encounters
 
 - 포켓몬 이름 검색 가능 [complete - 24.04.01 18:46]
+
   - api:
     - https://pokeapi.co/api/v2/pokemon/
   - auto complete search box를 추가하여 포켓몬 이름 검색으로 상세 조회
+
+- 페이지네이션 숫자 입력 이동, 현재 페이지 노출, 페이지 뷰 개수 수정 기능
 
 ## 사용 기술
 

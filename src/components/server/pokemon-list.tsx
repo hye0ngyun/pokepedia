@@ -4,9 +4,15 @@ import { Suspense } from "react";
 import { LoadingPokemonAvatar, PokemonAvatar } from "./pokemon-avatar";
 
 /** 포켓몬 목록 */
-export default async function PokemonList({ page = 1 }: { page: number }) {
-  const offset = page * 20 - 20;
-  const pokemons = await pokemonService.getPokemonList(offset);
+export default async function PokemonList({
+  page = 1,
+  limit = 20,
+}: {
+  page: number;
+  limit: number;
+}) {
+  const offset = page * limit - limit;
+  const pokemons = await pokemonService.getPokemonList(offset, limit);
 
   return (
     <Grid p="10px 0" container spacing={2}>
